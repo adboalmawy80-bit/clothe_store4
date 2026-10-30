@@ -242,12 +242,14 @@ function posInt(v) {
 }
 
 // ---------- الملفات الثابتة وصفحة الأدمن ----------
+// نقرأ الملف عند الإقلاع (يضمن أن Vercel يضمّنه داخل الدالة)
+const ADMIN_HTML = fs.readFileSync(path.join(__dirname, 'views', 'admin.html'), 'utf8');
 app.get('/admin', (req, res) => {
   const u = req.session.user;
   if (!u) return res.redirect('/login.html?next=/admin');
   if (u.role !== 'admin') return res.redirect('/');
   res.set('Cache-Control', 'no-store');
-  res.sendFile(path.join(__dirname, 'views', 'admin.html'));
+  res.type('html').send(ADMIN_HTML);
 });
 
 app.use(express.static(PUBLIC_DIR, { index: 'index.html' }));
