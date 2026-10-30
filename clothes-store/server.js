@@ -113,6 +113,32 @@ app.post(
 
 app.use(express.json({ limit: '50kb' }));
 
+// ---------- فحص الإعداد (لا يكشف أي قيم، فقط هل المتغيرات موجودة ونوع خطأ القاعدة) ----------
+app.get('/api/health', async (req, res) => {
+  const has = (k) => Boolean(String(process.env[k] || '').trim());
+  const env = {
+    DB_HOST: has('DB_HOST'),
+    DB_PORT: has('DB_PORT'),
+    DB_USER: has('DB_USER'),
+    DB_PASSWORD: has('DB_PASSWORD'),
+    DB_NAME: has('DB_NAME'),
+    DB_SSL: process.env.DB_SSL || null,
+    SESSION_SECRET: has('SESSION_SECRET')
+  };
+  let db = 'ok';
+  let code = null;
+  try {
+    if (!readyPromise) readyPromise = init();
+    await readyPromise;
+  } catch (e) {
+    readyPromise = null;
+    db = 'error';
+    code = String(e.code || e.errno || 'UNKNOWN');
+  }
+  res.set('Cache-Control', 'no-store');
+  res.json({ vercel: IS_VERCEL, env, db, dbErrorCode: code });
+});
+
 // ---------- الجلسة: كوكي موقّع (HMAC) بدل الذاكرة، يعمل على Vercel ----------
 const SESSION_SECRET = process.env.SESSION_SECRET || (IS_VERCEL ? null : crypto.randomBytes(32).toString('hex'));
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000;
