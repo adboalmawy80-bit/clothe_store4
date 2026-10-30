@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#10121c">
+  <title>متجر الأناقة</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/i18n.js"></script>
+  <script src="/js/app.js" defer></script>
+</head>
+<body data-page="checkout" data-title="co.title">
+  <header id="site-header"></header>
+  <main id="main">
+    <h1 class="page-title">💳 <span data-i18n="co.h1">إتمام الطلب والدفع</span></h1>
+    <div id="checkout-box" class="panel">
+      <h2 data-i18n="co.summary">ملخص الطلب</h2>
+      <div id="summary"></div>
+      <form id="checkout-form" novalidate>
+        <label for="address" data-i18n="co.address">عنوان التوصيل</label>
+        <textarea id="address" name="address" required maxlength="300" data-i18n-ph="co.addressPh" placeholder="المحافظة - المدينة - الشارع - رقم المبنى"></textarea>
+        <label for="phone" data-i18n="co.phone">رقم الهاتف</label>
+        <input id="phone" name="phone" type="tel" required maxlength="20" inputmode="tel" placeholder="01xxxxxxxxx">
+        <label data-i18n="co.method">طريقة الدفع</label>
+        <div class="pay-options">
+          <label><input type="radio" name="payment" value="cash" checked> <span data-i18n="co.cash">الدفع عند الاستلام</span></label>
+          <label><input type="radio" name="payment" value="wallet"> <span data-i18n="co.wallet">محفظة إلكترونية (فودافون كاش / انستاباي)</span></label>
+          <label id="opt-card"><input type="radio" name="payment" value="card"> <span data-i18n="co.card">بطاقة بنكية</span></label>
+          <label id="opt-stripe" hidden><input type="radio" name="payment" value="stripe"> <span data-i18n="co.stripe">بطاقة دولية — Stripe</span></label>
+        </div>
+        <p id="pay-note" class="muted" data-i18n="co.note">لا يتم حفظ أي بيانات بطاقة على الموقع. سيتواصل معك المتجر لتأكيد الدفع.</p>
+        <div id="checkout-msg" class="msg" role="alert"></div>
+        <button class="btn" type="submit" data-i18n="co.confirm">تأكيد الطلب</button>
+      </form>
+    </div>
+  </main>
+  <footer data-i18n="footer">© متجر الأناقة — جميع الحقوق محفوظة</footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+Elegance Store - License
+
+Regular License: you may use this item in ONE end product (one website), for yourself or one client.
+Extended License: you may use this item in a product that is sold to end users.
+
+You may NOT: resell, redistribute or share the source code as a template or script, or claim it as your own.
+The software is provided "as is", without warranty of any kind.
+
+Third-party packages (express, mysql2, bcryptjs, helmet, multer, express-rate-limit, dotenv, @vercel/blob)
+are installed from npm and keep their own open-source licenses.
+All emoji icons are standard Unicode characters. No third-party images or fonts are bundled.

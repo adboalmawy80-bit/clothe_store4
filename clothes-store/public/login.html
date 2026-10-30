@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#10121c">
+  <title>متجر الأناقة</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/i18n.js"></script>
+  <script src="/js/app.js" defer></script>
+</head>
+<body data-page="login" data-title="login.title">
+  <header id="site-header"></header>
+  <main id="main">
+    <div class="auth-box">
+      <h1>👗 <span data-i18n="brand">متجر الأناقة</span></h1>
+      <div class="tabs">
+        <button type="button" class="active" data-tab="login" data-i18n="login.tab">تسجيل الدخول</button>
+        <button type="button" data-tab="register" data-i18n="login.register">حساب جديد</button>
+      </div>
+
+      <form id="login-form" novalidate>
+        <label for="l-email" data-i18n="login.email">البريد الإلكتروني</label>
+        <input id="l-email" name="email" type="email" required autocomplete="email">
+        <label for="l-pass" data-i18n="login.password">كلمة المرور</label>
+        <input id="l-pass" name="password" type="password" required autocomplete="current-password">
+        <button class="btn" type="submit" data-i18n="login.submit">دخول</button>
+      </form>
+
+      <form id="register-form" novalidate hidden>
+        <label for="r-name" data-i18n="login.name">الاسم</label>
+        <input id="r-name" name="name" type="text" required maxlength="100" autocomplete="name">
+        <label for="r-email" data-i18n="login.email">البريد الإلكتروني</label>
+        <input id="r-email" name="email" type="email" required autocomplete="email">
+        <label for="r-pass" data-i18n="login.password8">كلمة المرور (8 أحرف على الأقل)</label>
+        <input id="r-pass" name="password" type="password" required minlength="8" autocomplete="new-password">
+        <button class="btn" type="submit" data-i18n="login.create">إنشاء حساب</button>
+      </form>
+
+      <div id="auth-msg" class="msg" role="alert"></div>
+    </div>
+  </main>
+</body>
+</html>

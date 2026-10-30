@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#10121c">
+  <meta name="robots" content="noindex, nofollow">
+  <title>لوحة التحكم - متجر الأناقة</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/i18n.js" defer></script>
+  <script src="/js/app.js" defer></script>
+  <script src="/js/admin.js" defer></script>
+</head>
+<body data-page="admin" data-title="title.admin">
+  <header id="site-header"></header>
+  <main id="main">
+    <h1 class="page-title" data-i18n="admin.title">⚙️ لوحة تحكم الأدمن</h1>
+
+    <section class="stats" id="stats" aria-live="polite"></section>
+
+    <section class="panel">
+      <h2 id="form-title" data-i18n="admin.add">إضافة منتج جديد</h2>
+      <form id="product-form" enctype="multipart/form-data" novalidate>
+        <div class="form-grid">
+          <div>
+            <label for="p-name" data-i18n="admin.pname">اسم المنتج</label>
+            <input id="p-name" name="name" type="text" required maxlength="150">
+          </div>
+          <div>
+            <label for="p-cat" data-i18n="admin.category">القسم</label>
+            <select id="p-cat" name="category" required>
+              <option value="men" data-i18n="nav.men">رجال</option>
+              <option value="women" data-i18n="nav.women">نساء</option>
+              <option value="kids" data-i18n="nav.kids">أطفال</option>
+            </select>
+          </div>
+          <div>
+            <label for="p-price" data-i18n="admin.price">السعر</label>
+            <input id="p-price" name="price" type="number" min="1" step="0.01" required>
+          </div>
+          <div>
+            <label for="p-qty" data-i18n="admin.qty">الكمية</label>
+            <input id="p-qty" name="quantity" type="number" min="0" step="1" required>
+          </div>
+          <div>
+            <label for="p-size" data-i18n="admin.size">المقاس (مثال: S, M, L)</label>
+            <input id="p-size" name="size" type="text" maxlength="100">
+          </div>
+          <div>
+            <label for="p-img" data-i18n="admin.image">صورة المنتج</label>
+            <input id="p-img" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+            <small id="img-hint" class="muted" data-i18n="admin.keepImage" hidden>اتركه فارغاً للإبقاء على الصورة الحالية</small>
+          </div>
+        </div>
+        <label for="p-desc" data-i18n="admin.desc">وصف المنتج</label>
+        <textarea id="p-desc" name="description" maxlength="2000"></textarea>
+        <label for="p-specs" data-i18n="admin.specs">المواصفات</label>
+        <textarea id="p-specs" name="specs" maxlength="2000"></textarea>
+        <div class="form-grid">
+          <div>
+            <label for="p-name-en" data-i18n="admin.nameEn">Product name (English)</label>
+            <input id="p-name-en" name="name_en" type="text" maxlength="150" dir="ltr">
+          </div>
+        </div>
+        <label for="p-desc-en" data-i18n="admin.descEn">Description (English)</label>
+        <textarea id="p-desc-en" name="description_en" maxlength="2000" dir="ltr"></textarea>
+        <label for="p-specs-en" data-i18n="admin.specsEn">Specifications (English)</label>
+        <textarea id="p-specs-en" name="specs_en" maxlength="2000" dir="ltr"></textarea>
+        <div id="product-msg" class="msg" role="alert"></div>
+        <button class="btn" type="submit" data-i18n="admin.addBtn">إضافة المنتج</button>
+        <button class="btn danger" type="button" id="cancel-edit" data-i18n="admin.cancel" hidden>إلغاء</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="admin.products">المنتجات</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th data-i18n="admin.thImage">صورة</th><th data-i18n="admin.thName">الاسم</th>
+            <th data-i18n="admin.category">القسم</th><th data-i18n="admin.thPrice">السعر</th>
+            <th data-i18n="admin.qty">الكمية</th><th data-i18n="admin.thSize">المقاس</th><th></th>
+          </tr></thead>
+          <tbody id="products-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="admin.orders">الطلبات</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th data-i18n="admin.thCustomer">العميل</th><th data-i18n="admin.thContact">التواصل والعنوان</th>
+            <th data-i18n="admin.thItems">المنتجات</th><th data-i18n="cart.total">الإجمالي</th>
+            <th data-i18n="admin.thDate">التاريخ</th><th data-i18n="admin.thStatus">الحالة</th>
+          </tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
