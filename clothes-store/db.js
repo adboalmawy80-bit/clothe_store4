@@ -2,6 +2,7 @@
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
+const { resilient } = require('./dbretry');
 
 const DB_NAME = process.env.DB_NAME || 'clothes_store';
 if (!/^[A-Za-z0-9_]+$/.test(DB_NAME)) {
@@ -27,6 +28,7 @@ const baseConfig = {
 };
 
 let pool = null;
+let safePool = null;
 
 const TABLES = [
   `CREATE TABLE IF NOT EXISTS users (
@@ -120,8 +122,10 @@ async function init() {
     database: DB_NAME,
     waitForConnections: true,
     connectionLimit: process.env.VERCEL ? 3 : 10,
-    enableKeepAlive: true
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000
   });
+  safePool = resilient(pool);
 
   for (const sql of TABLES) {
     await pool.query(sql);
@@ -185,8 +189,8 @@ async function init() {
 }
 
 function getPool() {
-  if (!pool) throw new Error('قاعدة البيانات غير مهيأة');
-  return pool;
+  if (!safePool) throw new Error('قاعدة البيانات غير مهيأة');
+  return safePool;
 }
 
 module.exports = { init, getPool };
