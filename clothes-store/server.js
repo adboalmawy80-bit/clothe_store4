@@ -123,13 +123,15 @@ app.get('/api/health', async (req, res) => {
     DB_PASSWORD: has('DB_PASSWORD'),
     DB_NAME: has('DB_NAME'),
     DB_SSL: process.env.DB_SSL || null,
-    SESSION_SECRET: has('SESSION_SECRET')
+    SESSION_SECRET: has('SESSION_SECRET'),
+    SESSION_KEY_AVAILABLE: Boolean(SESSION_SECRET)
   };
   let db = 'ok';
   let code = null;
   try {
     if (!readyPromise) readyPromise = init();
     await readyPromise;
+    await getPool().query('SELECT 1');
   } catch (e) {
     readyPromise = null;
     db = 'error';
@@ -140,7 +142,17 @@ app.get('/api/health', async (req, res) => {
 });
 
 // ---------- الجلسة: كوكي موقّع (HMAC) بدل الذاكرة، يعمل على Vercel ----------
-const SESSION_SECRET = process.env.SESSION_SECRET || (IS_VERCEL ? null : crypto.randomBytes(32).toString('hex'));
+// يُفضّل ضبط SESSION_SECRET. لو غاب على Vercel نشتقّ مفتاحاً من بيانات القاعدة السرّية بدل ما يتوقف الموقع.
+function derivedSecret() {
+  const base = String(process.env.DB_PASSWORD || '') + '|' + String(process.env.DB_USER || '');
+  if (base.length < 8) return null;
+  return crypto.createHmac('sha256', 'elegance-store-session-v1').update(base).digest('hex');
+}
+const SESSION_SECRET =
+  process.env.SESSION_SECRET || (IS_VERCEL ? derivedSecret() : crypto.randomBytes(32).toString('hex'));
+if (IS_VERCEL && !process.env.SESSION_SECRET && SESSION_SECRET) {
+  console.warn('SESSION_SECRET is not set: using a key derived from the DB credentials. Please set SESSION_SECRET.');
+}
 const SESSION_MS = 7 * 24 * 60 * 60 * 1000;
 const COOKIE_OPTS = {
   httpOnly: true,
